@@ -1,4 +1,4 @@
-# Gerenciador de Tarefas com Pomodoro - Web
+# Timefy
 
 ##  Integrantes do Grupo
 
