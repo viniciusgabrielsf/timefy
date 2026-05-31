@@ -1,0 +1,23 @@
+import { LogInForm } from '../components/log-in-form';
+import { Page } from '@/components/pages/page';
+import { useLogInPage } from '../hooks/use-log-in-page';
+import type { LogInSchemaType } from '../helpers/log-in-schema';
+
+export const LogInPage = () => {
+  const { logIn } = useLogInPage();
+
+  const onSubmit = (value: LogInSchemaType) => {
+    logIn.mutate({ ...value });
+  };
+
+  return (
+    <Page>
+      <div className="flex items-center gap-4">
+        <img src="public/assets/logo2.png" alt="Lâmpada mágica" className="w-30 h-30 sm:w-50 sm:h-50" />
+        <h1 className="text-6xl sm:text-8xl font-bold">Timefy</h1>
+      </div>
+
+      <LogInForm onSubmit={onSubmit} className="w-[85%] max-w-xl p-4 mb-3" />
+    </Page>
+  );
+};
