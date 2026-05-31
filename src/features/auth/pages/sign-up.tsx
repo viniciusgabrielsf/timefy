@@ -1,0 +1,27 @@
+import { SignUpForm } from '../components/sign-up-form';
+import { Page } from '@/components/pages/page';
+import { useSignUpPage } from '../hooks/use-sign-up-page';
+import type { SignUpSchemaType } from '../helpers/sign-up-schema';
+import moment from 'moment';
+
+export const SignUpPage = () => {
+  const { signUp } = useSignUpPage();
+
+  const onSubmit = (value: SignUpSchemaType) => {
+    signUp.mutate({
+      ...value,
+      birthDate: moment(value.birthDate).format('YYYY-MM-DD'),
+    });
+  };
+
+  return (
+    <Page>
+      <div className="flex items-center gap-4">
+        <img src="public/assets/logo2.png" alt="Lâmpada mágica" className="w-30 h-30 sm:w-50 sm:h-50" />
+        <h1 className="text-6xl sm:text-8xl font-bold">Timefy</h1>
+      </div>
+
+      <SignUpForm onSubmit={onSubmit} className="w-[85%] max-w-xl p-4 mb-3" />
+    </Page>
+  );
+};
