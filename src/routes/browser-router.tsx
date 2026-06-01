@@ -10,7 +10,7 @@ import { profilePageRoutes } from '@/features/profile/routes/profile';
 export const router = createBrowserRouter([
   {
     path: '/',
-    loader: authLoader,
+    // loader: authLoader,
     children: [
       {
         element: <PublicRoutes />,
