@@ -11,9 +11,9 @@ type Props = {
 };
 
 export const DeleteTodoDialog = ({ teamId, todo, open, onOpenChange }: Props) => {
-  if (!todo) return null;
-
   const { deleteTodo } = useDeleteTodo(teamId, () => onOpenChange(false));
+
+  if (!todo) return null;
 
   const onSubmitDelete = () => {
     deleteTodo.mutate(todo.id);

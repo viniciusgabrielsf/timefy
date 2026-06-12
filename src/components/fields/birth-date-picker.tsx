@@ -9,7 +9,7 @@ import { Button } from '@components/button';
 import { CalendarDotsIcon } from '@phosphor-icons/react';
 
 type Props = {
-  field: ControllerRenderProps<any, any>;
+  field: ControllerRenderProps;
   fieldState: ControllerFieldState;
   setValue: (value: Date) => void;
   placeholder?: string;

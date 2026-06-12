@@ -1,4 +1,3 @@
-import { authLoader } from '@/features/auth/loaders/auth-loader';
 import { createBrowserRouter, Navigate } from 'react-router';
 import { publicRoutes } from './public-routes';
 import { ProtectedRoutes } from '@/features/auth/components/protected-routes';

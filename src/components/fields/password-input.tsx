@@ -6,7 +6,7 @@ import { EyeClosedIcon, EyeIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
 
 type Props = {
-  field: ControllerRenderProps<any, any>;
+  field: ControllerRenderProps;
   fieldState: ControllerFieldState;
   label: string;
   placeholder?: string;

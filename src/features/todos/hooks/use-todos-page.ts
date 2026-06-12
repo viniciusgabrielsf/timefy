@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { todosStorage } from '../storage/todos-storage';
 import type { Todo } from '../api/todos-client';
 
@@ -26,24 +26,24 @@ export const useTodosPage = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const refreshTodos = () => {
+  const refreshTodos = useCallback(() => {
     setIsLoading(true);
     const filterDate = formatDateToYYYYMMDD(date);
     const items = todosStorage.getTodosByDate(filterDate);
     setTodos(items);
     setIsLoading(false);
-  };
+  }, [date]);
 
   useEffect(() => {
     refreshTodos();
-  }, [date]);
+  }, [refreshTodos]);
 
   useEffect(() => {
     window.addEventListener('todos-updated', refreshTodos);
     return () => {
       window.removeEventListener('todos-updated', refreshTodos);
     };
-  }, [date]);
+  }, [refreshTodos]);
 
   return {
     todos: {

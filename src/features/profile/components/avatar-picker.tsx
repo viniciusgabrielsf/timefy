@@ -19,7 +19,7 @@ import { useMediaQuery } from '@/hooks/use-media-query';
 import { getAvatarFullPathById } from '../helpers/avatar';
 
 type Props = {
-  field: ControllerRenderProps<any, any>;
+  field: ControllerRenderProps;
   fieldState: ControllerFieldState;
   setValue: (value: string) => void;
 };

@@ -5,11 +5,23 @@ import { EllipsisVerticalIcon } from 'lucide-react';
 import moment from 'moment';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/dropdown-menu';
 import { getAvatarFullPathById, getInitials } from '@/features/profile/helpers/avatar';
-import { useState } from 'react';
+
+type Member = {
+  id: string;
+  avatar: string;
+  fullName: string;
+};
+
+type Team = {
+  name: string;
+  members: Member[];
+  createdAt: string;
+  updatedAt: string;
+};
 
 type Props = {
-  team: any;
-  onClick: (team: any) => void;
+  team: Team;
+  onClick: (team: Team) => void;
 };
 
 const VISIBLE_AVATARS = 5;
@@ -19,9 +31,6 @@ export const TeamCard = ({ team, onClick }: Props) => {
   const updatedAtFormatted = moment(team.updatedAt).format('DD/MM/YYYY');
   const visibleMembers = team.members.slice(0, VISIBLE_AVATARS);
   const hiddenCount = Math.max(0, team.members.length - VISIBLE_AVATARS);
-
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   return (
     <Card className="group hover:shadow-md transition-shadow h-full flex flex-col gap-0 py-2">
@@ -38,16 +47,14 @@ export const TeamCard = ({ team, onClick }: Props) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-40">
-              <DropdownMenuItem onClick={() => setEditModalOpen(true)}>Editar</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setDeleteDialogOpen(true)} className="text-destructive">
-                Deletar
-              </DropdownMenuItem>
+              <DropdownMenuItem>Editar</DropdownMenuItem>
+              <DropdownMenuItem className="text-destructive">Deletar</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
 
         <AvatarGroup>
-          {visibleMembers.map((member: { id: any; avatar: any; fullName: string }) => (
+          {visibleMembers.map((member: Member) => (
             <Avatar key={`card-member-${member.id}`} size="sm" format="circle">
               <AvatarImage
                 src={getAvatarFullPathById(member.avatar || '')}

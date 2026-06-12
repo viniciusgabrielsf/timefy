@@ -4,7 +4,7 @@ import { useUserStore } from '../stores/user-store';
 
 export const authLoader = async () => {
   try {
-    let { isAuthenticated } = useAuthStore.getState();
+    const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) return;
 
     const user = await userClient.me();
@@ -18,7 +18,7 @@ export const authLoader = async () => {
         avatar: user.avatar,
       });
     }
-  } catch (error) {
+  } catch {
     useAuthStore.getState().setIsAuthenticated(false);
     useUserStore.getState().setUser(null);
     return null;

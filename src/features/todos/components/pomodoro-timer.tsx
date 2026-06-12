@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from '@/components/button';
 import { Card } from '@/components/card';
 import { PlayIcon, PauseIcon, RotateCcwIcon } from 'lucide-react';
@@ -31,6 +31,37 @@ export const PomodoroTimer = () => {
     return ((total - timeLeft) / total) * 100;
   };
 
+  const handleTimerComplete = useCallback(() => {
+    setIsRunning(false);
+
+    // Play notification sound (optional - browser dependent)
+    try {
+      const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZRQ0PVbDm7q5aFglFouHyvmwiCCt9zPLaizsIDGS76+yhUBELTKXh8LJlHAU2jdXyzn0pBSh+zPDajTkIDmm/7eSXSA4OWLTn7q1ZFApFouHyvmwiCCt9zPLaizsIDGS76+yhUBELTKXh8LJlHAU2jdXyzn0pBSh+zPDajTkIDmm/7eSXSA4OWLTn7q1ZFApFouHyvmwiCCt9zPLaizsIDGS76+yhUBELTKXh8LJlHAU2jdXyzn0pBSh+zPDajTkIDmm/7eSXSA4OWLTn7q1ZFApFouHyvmwiCCt9zPLaizsIDGS76+yhUBELTKXh8LJlHAU2jdXyzn0pBSh+zPDajTkIDmm/7eSXSA4OWLTn7q1ZFApFouHyvmwiCCt9zPLaizsIDGS76+yhUBELTKXh8LJlHAU2jdXyzn0pBSh+zPDajTkIDmm/7eSXSA4OWLTn7q1ZFApFouHyvmwiCCt9zPLaizsIDGS76+yhUBELTKXh8LJlHAU2jdXyzn0pBSh+zPDajTkIDmm/7eSXSA4OWLTn7q1ZFApFouHyvmwiCCt9zPLaizsIDGS76+yhUBELTKXh8LJlHAU2jdXyzn0pBSh+zPDajTkIDmm/7eSXSA4OWLTn7q1ZFApFouHyvmwiCCt9zPLaizsIDGS76+yhUBELTKXh8LJlHAU2jdXyzn0pBSh+zPDajTkIDmm/7eSXSA4OWLTn7q1ZFApFouHyvmwiCCt9zPLaizsIDGS76+yhUBELTKXh8LJlHAU2jdXyzn0pBSh+zPDajTkIDmm/7eSXSA4OWLTn7q1ZFA==');
+      audio.play().catch(() => {
+        // Ignore if audio playback fails
+      });
+    } catch {
+      // Audio not supported or failed
+    }
+
+    // Determine next mode
+    if (mode === 'work') {
+      const newCompleted = completedPomodoros + 1;
+      setCompletedPomodoros(newCompleted);
+
+      if (newCompleted % 4 === 0) {
+        setMode('longBreak');
+        setTimeLeft(TIMER_SETTINGS.longBreak);
+      } else {
+        setMode('shortBreak');
+        setTimeLeft(TIMER_SETTINGS.shortBreak);
+      }
+    } else {
+      setMode('work');
+      setTimeLeft(TIMER_SETTINGS.work);
+    }
+  }, [mode, completedPomodoros]);
+
   // Timer countdown logic
   useEffect(() => {
     if (isRunning && timeLeft > 0) {
@@ -54,7 +85,7 @@ export const PomodoroTimer = () => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [isRunning, timeLeft]);
+  }, [isRunning, timeLeft, handleTimerComplete]);
 
   const handleTimerComplete = () => {
     setIsRunning(false);
@@ -65,7 +96,7 @@ export const PomodoroTimer = () => {
       audio.play().catch(() => {
         // Ignore if audio playback fails
       });
-    } catch (error) {
+    } catch {
       // Audio not supported or failed
     }
 
