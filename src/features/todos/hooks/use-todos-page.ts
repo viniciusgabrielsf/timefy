@@ -1,17 +1,35 @@
 import { useState, useEffect } from 'react';
-import moment from 'moment';
 import { todosStorage } from '../storage/todos-storage';
 import type { Todo } from '../api/todos-client';
 
+// Helper functions for date manipulation
+const getStartOfMonth = (date: Date): Date => {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+};
+
+const addMonths = (date: Date, months: number): Date => {
+  const newDate = new Date(date);
+  newDate.setMonth(newDate.getMonth() + months);
+  return newDate;
+};
+
+const formatDateToYYYYMMDD = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 // Monthly view - user can paginate between months
 export const useTodosPage = () => {
-  const [date, setDate] = useState(moment().startOf('month'));
+  const [date, setDate] = useState(getStartOfMonth(new Date()));
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const refreshTodos = () => {
     setIsLoading(true);
-    const items = todosStorage.getTodosByDate(moment(date).format('YYYY-MM-DD'));
+    const filterDate = formatDateToYYYYMMDD(date);
+    const items = todosStorage.getTodosByDate(filterDate);
     setTodos(items);
     setIsLoading(false);
   };
@@ -41,10 +59,10 @@ export const useTodosPage = () => {
     pagination: {
       date,
       goToPreviousPage: () => {
-        setDate(date => moment(date).subtract(1, 'month'));
+        setDate(currentDate => getStartOfMonth(addMonths(currentDate, -1)));
       },
       goToNextPage: () => {
-        setDate(date => moment(date).add(1, 'month'));
+        setDate(currentDate => getStartOfMonth(addMonths(currentDate, 1)));
       },
     },
   };

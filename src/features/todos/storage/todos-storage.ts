@@ -60,13 +60,26 @@ export const todosStorage = {
 
   getTodosByDate: (date: string): Todo[] => {
     const todos = todosStorage.getTodos();
+
+    // If no date provided, return all todos
+    if (!date) {
+      return todos;
+    }
+
     return todos.filter(todo => {
-      const todoDate = new Date(todo.todoDate);
-      const filterDate = new Date(date);
-      return (
-        todoDate.getMonth() === filterDate.getMonth() &&
-        todoDate.getFullYear() === filterDate.getFullYear()
-      );
+      if (!todo.todoDate) return false;
+
+      // Extract year and month from the todo date (YYYY-MM-DD format)
+      const todoDateParts = todo.todoDate.split('-');
+      const todoYear = parseInt(todoDateParts[0]);
+      const todoMonth = parseInt(todoDateParts[1]);
+
+      // Extract year and month from the filter date
+      const filterDateParts = date.split('-');
+      const filterYear = parseInt(filterDateParts[0]);
+      const filterMonth = parseInt(filterDateParts[1]);
+
+      return todoYear === filterYear && todoMonth === filterMonth;
     });
   },
 };

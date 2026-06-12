@@ -17,8 +17,8 @@ export const EditTodoModal = ({ teamId, todo, open, onOpenChange }: Props) => {
   const onSubmit = (value: TodoSchemaType) => {
     editTodo.mutate({
       todoId: todo.id,
-      title: value.title,
-      amount: value.amount,
+      task: value.task,
+      pomodoroCycles: value.pomodoroCycles,
       todoDate: value.todoDate,
     });
   };
@@ -34,8 +34,8 @@ export const EditTodoModal = ({ teamId, todo, open, onOpenChange }: Props) => {
           className="flex flex-col gap-6"
           onSubmit={onSubmit}
           defaultValues={{
-            title: todo.title,
-            amount: todo.amount,
+            task: todo.task,
+            pomodoroCycles: todo.pomodoroCycles,
             todoDate: todo.todoDate,
           }}
         />

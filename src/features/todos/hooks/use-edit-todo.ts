@@ -12,8 +12,8 @@ export const useEditTodo = (_teamId: string, onClose?: () => void) => {
       toast.loading('Editando tarefa...', { id: 'edit-todo-loading' });
 
       const result = todosStorage.updateTodo(request.todoId, {
-        title: request.title,
-        amount: request.amount,
+        task: request.task,
+        pomodoroCycles: request.pomodoroCycles,
         todoDate: request.todoDate,
       });
 

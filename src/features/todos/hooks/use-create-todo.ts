@@ -12,8 +12,8 @@ export const useCreateTodo = (_teamId: string, onClose?: () => void) => {
       toast.loading('Criando tarefa...', { id: 'create-todo-loading' });
 
       todosStorage.addTodo({
-        title: request.title,
-        amount: request.amount,
+        task: request.task,
+        pomodoroCycles: request.pomodoroCycles,
         todoDate: request.todoDate,
       });
 

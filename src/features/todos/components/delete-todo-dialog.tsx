@@ -25,7 +25,7 @@ export const DeleteTodoDialog = ({ teamId, todo, open, onOpenChange }: Props) =>
         <DialogHeader>
           <DialogTitle>Deletar todo</DialogTitle>
           <DialogDescription className="text-sm">
-            Tem certeza que deseja deletar <strong>{todo.title}</strong>? Esta ação não pode ser desfeita.
+            Tem certeza que deseja deletar <strong>{todo.task}</strong>? Esta ação não pode ser desfeita.
           </DialogDescription>
         </DialogHeader>
 

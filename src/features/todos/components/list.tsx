@@ -3,12 +3,11 @@ import type { Todo } from '../api/todos-client';
 import { ListItem } from './list-item';
 import { ScrollArea } from '@/components/scroll-area';
 import { Paginator } from './pagination/paginator';
-import type { Moment } from 'moment';
 
 type Props = {
   items: Todo[];
   pagination: {
-    date: Moment;
+    date: Date;
     goToPreviousPage: () => void;
     goToNextPage: () => void;
   };
@@ -38,8 +37,8 @@ export const List = ({ items, pagination, onEdit, onDelete }: Props) => {
 
         {items.length === 0 && (
           <div className="flex items-center justify-center h-32 text-sm text-muted-foreground">
-            Nenhuma tarefa encontrada em{' '}
-            {pagination.date.toDate().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}.
+            Nenhuma tarefa encontrada para{' '}
+            {pagination.date.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}.
           </div>
         )}
       </ScrollArea>

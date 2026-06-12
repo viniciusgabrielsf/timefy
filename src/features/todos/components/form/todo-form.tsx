@@ -15,7 +15,7 @@ type Props = {
 export const TodoForm = ({
   className = '',
   onSubmit,
-  defaultValues = { title: '', amount: 0, todoDate: new Date().toISOString().split('T')[0] },
+  defaultValues = { task: '', pomodoroCycles: 1, todoDate: new Date().toISOString().split('T')[0] },
 }: Props) => {
   const form = useForm<TodoSchemaType>({
     resolver: zodResolver(todoSchema),
@@ -26,14 +26,14 @@ export const TodoForm = ({
     <form onSubmit={form.handleSubmit(onSubmit)} className={`flex flex-col gap-6 ${className}`}>
       <FieldGroup>
         <Controller
-          name="title"
+          name="task"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="form-todo-title">Tarefa</FieldLabel>
+              <FieldLabel htmlFor="form-todo-task">Tarefa</FieldLabel>
               <Input
                 {...field}
-                id="form-todo-title"
+                id="form-todo-task"
                 aria-invalid={fieldState.invalid}
                 placeholder="Digite o nome da tarefa..."
                 autoComplete="off"
@@ -45,21 +45,21 @@ export const TodoForm = ({
         />
 
         <Controller
-          name="amount"
+          name="pomodoroCycles"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="form-todo-amount">Ciclos Pomodoro</FieldLabel>
+              <FieldLabel htmlFor="form-todo-pomodoro">Ciclos Pomodoro</FieldLabel>
               <Input
                 {...field}
-                id="form-todo-amount"
+                id="form-todo-pomodoro"
                 aria-invalid={fieldState.invalid}
-                placeholder="0"
+                placeholder="1"
                 type="number"
                 step="1"
-                min="0"
+                min="1"
                 onChange={e => {
-                  const value = parseInt(e.target.value) || 0;
+                  const value = parseInt(e.target.value) || 1;
                   field.onChange(value);
                 }}
               />

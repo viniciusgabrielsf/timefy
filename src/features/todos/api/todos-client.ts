@@ -14,8 +14,8 @@ export type TeamMember = {
 
 export type Todo = {
   id: string;
-  title: string;
-  amount: number; // Pomodoro cycles
+  task: string;
+  pomodoroCycles: number;
   todoDate: string;
 };
 
@@ -32,8 +32,8 @@ export type TodosListResponse = {
 };
 
 export type CreateTodoRequest = {
-  title: string;
-  amount: number;
+  task: string;
+  pomodoroCycles: number;
   todoDate: string;
 };
 

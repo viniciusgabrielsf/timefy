@@ -22,8 +22,8 @@ export const ListItem = ({ item, className, onEdit, onDelete }: Props) => {
     <article
       className={`grid grid-cols-[2fr_3fr_1fr] sm:grid-cols-[5fr_3fr_2fr_1fr] gap-3 sm:gap-4 py-2 sm:py-3 items-center ${className}`}
     >
-      <p className={`${textStyle} font-medium`}>{item.title}</p>
-      <p className={`${textStyle} font-semibold`}>{item.amount}</p>
+      <p className={`${textStyle} font-medium`}>{item.task}</p>
+      <p className={`${textStyle} font-semibold`}>{item.pomodoroCycles}</p>
       <p className={`${textStyle} hidden sm:block`}>{formattedDate}</p>
 
       <Activity mode={mobileWidthMatches ? 'hidden' : 'visible'}>

@@ -5,23 +5,16 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/pagination';
-import type { Moment } from 'moment';
 
 type Props = {
   pagination: {
-    date: Moment;
-    // totalPages: number;
-    // rowsPerPage: number;
-    // rowsPerPageOptions: number[];
-    // canGoPreviousPage: boolean;
-    // canGoNextPage: boolean;
+    date: Date;
     goToPreviousPage: () => void;
     goToNextPage: () => void;
-    // updateRowsPerPage: (nextRowsPerPage: number) => void;
   };
 };
 export const Paginator = ({ pagination: { date, goToPreviousPage, goToNextPage } }: Props) => {
-  const localizedMonthYear = date.toDate().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  const localizedMonthYear = date.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
 
   return (
     <Pagination className="mx-0 w-auto justify-end">
