@@ -1,30 +1,43 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { toast } from 'sonner';
-import { todosClient, type CreateTodoRequest } from '../api/todos-client';
+import { todosStorage } from '../storage/todos-storage';
+import type { CreateTodoRequest } from '../api/todos-client';
 
-export const useCreateTodo = (teamId: string, onClose?: () => void) => {
-  const queryClient = useQueryClient();
+export const useCreateTodo = (_teamId: string, onClose?: () => void) => {
+  const [isPending, setIsPending] = useState(false);
 
-  const createTodoMutation = useMutation({
-    mutationKey: ['create-todo'],
-    mutationFn: async (request: CreateTodoRequest) => {
-      toast.loading('Criando todo...', { id: 'create-todo-loading' });
+  const mutate = (request: CreateTodoRequest) => {
+    try {
+      setIsPending(true);
+      toast.loading('Criando tarefa...', { id: 'create-todo-loading' });
 
-      return todosClient.createTodo(teamId, request);
-    },
-    onSuccess: () => {
+      todosStorage.addTodo({
+        title: request.title,
+        amount: request.amount,
+        todoDate: request.todoDate,
+      });
+
       toast.dismiss('create-todo-loading');
-      toast.success('Pagamento criado com sucesso!', { id: 'create-todo-success' });
-      queryClient.invalidateQueries({ queryKey: ['todos'] });
+      toast.success('Tarefa criada com sucesso!', { id: 'create-todo-success' });
+
+      // Trigger a custom event to notify other components
+      window.dispatchEvent(new Event('todos-updated'));
+
       onClose?.();
-    },
-    onError: (error: Error) => {
+    } catch (error) {
       toast.dismiss('create-todo-loading');
-      toast.error(`Erro ao criar todo: ${error.message}`, { id: 'create-todo-error' });
-    },
-  });
+      toast.error(`Erro ao criar tarefa: ${error instanceof Error ? error.message : 'Erro desconhecido'}`, {
+        id: 'create-todo-error',
+      });
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   return {
-    createTodo: createTodoMutation,
+    createTodo: {
+      mutate,
+      isPending,
+    },
   };
 };

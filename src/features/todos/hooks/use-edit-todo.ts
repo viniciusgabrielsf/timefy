@@ -1,30 +1,47 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { toast } from 'sonner';
-import { todosClient, type EditTodoRequest } from '../api/todos-client';
+import { todosStorage } from '../storage/todos-storage';
+import type { EditTodoRequest } from '../api/todos-client';
 
-export const useEditTodo = (teamId: string, onClose?: () => void) => {
-  const queryClient = useQueryClient();
+export const useEditTodo = (_teamId: string, onClose?: () => void) => {
+  const [isPending, setIsPending] = useState(false);
 
-  const editTodoMutation = useMutation({
-    mutationKey: ['edit-todo'],
-    mutationFn: async (request: EditTodoRequest) => {
-      toast.loading('Editando todo...', { id: 'edit-todo-loading' });
+  const mutate = (request: EditTodoRequest) => {
+    try {
+      setIsPending(true);
+      toast.loading('Editando tarefa...', { id: 'edit-todo-loading' });
 
-      return todosClient.editTodo(teamId, request);
-    },
-    onSuccess: () => {
+      const result = todosStorage.updateTodo(request.todoId, {
+        title: request.title,
+        amount: request.amount,
+        todoDate: request.todoDate,
+      });
+
+      if (!result) {
+        throw new Error('Tarefa não encontrada');
+      }
+
       toast.dismiss('edit-todo-loading');
-      toast.success('Pagamento editado com sucesso!', { id: 'edit-todo-success' });
-      queryClient.invalidateQueries({ queryKey: ['todos'] });
+      toast.success('Tarefa editada com sucesso!', { id: 'edit-todo-success' });
+
+      // Trigger a custom event to notify other components
+      window.dispatchEvent(new Event('todos-updated'));
+
       onClose?.();
-    },
-    onError: (error: Error) => {
+    } catch (error) {
       toast.dismiss('edit-todo-loading');
-      toast.error(`Erro ao editar todo: ${error.message}`, { id: 'edit-todo-error' });
-    },
-  });
+      toast.error(`Erro ao editar tarefa: ${error instanceof Error ? error.message : 'Erro desconhecido'}`, {
+        id: 'edit-todo-error',
+      });
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   return {
-    editTodo: editTodoMutation,
+    editTodo: {
+      mutate,
+      isPending,
+    },
   };
 };

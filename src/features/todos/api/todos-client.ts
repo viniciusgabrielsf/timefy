@@ -14,14 +14,8 @@ export type TeamMember = {
 
 export type Todo = {
   id: string;
-  tiutle: string;
-  teamId: string;
-  payerId: string;
-  payer: TeamMember;
-  debtorsIds: string[];
-  debtors: TeamMember[];
   title: string;
-  amount: number;
+  amount: number; // Pomodoro cycles
   todoDate: string;
 };
 
@@ -38,10 +32,9 @@ export type TodosListResponse = {
 };
 
 export type CreateTodoRequest = {
-  payerId: string;
-  debtorsIds: string[];
   title: string;
   amount: number;
+  todoDate: string;
 };
 
 export type EditTodoRequest = CreateTodoRequest & {

@@ -1,66 +1,51 @@
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { todosClient } from '../api/todos-client';
-import { useSearchParams } from 'react-router';
+import { useState, useEffect } from 'react';
 import moment from 'moment';
+import { todosStorage } from '../storage/todos-storage';
+import type { Todo } from '../api/todos-client';
 
-// TODO a visão será tratada como mensal.
-// TODO o usuário paginará entre meses do ano
+// Monthly view - user can paginate between months
 export const useTodosPage = () => {
-  const [searchParams] = useSearchParams();
-  const teamId = searchParams.get('teamId') || '';
-  // const [page, setPage] = useState(1);
   const [date, setDate] = useState(moment().startOf('month'));
-  // const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const trasactionsQuery = useQuery({
-    queryKey: ['todos', { date, teamId }],
-    queryFn: async () => {
-      return todosClient.getMyTodos(teamId, {
-        filter: {
-          date: moment(date).format('YYYY-MM-DD'),
-        },
-      });
-    },
-    initialData: {
-      items: [],
-      total: 0,
-      balances: [],
-    },
-    enabled: false, // Disable automatic fetching
-  });
+  const refreshTodos = () => {
+    setIsLoading(true);
+    const items = todosStorage.getTodosByDate(moment(date).format('YYYY-MM-DD'));
+    setTodos(items);
+    setIsLoading(false);
+  };
 
-  // const totalPages = Math.max(1, Math.ceil(trasactionsQuery.data.total / rowsPerPage));
-  // const canGoPreviousPage = page > 1;
-  // const canGoNextPage = page < totalPages;
+  useEffect(() => {
+    refreshTodos();
+  }, [date]);
 
-  // useEffect(() => {
-  //   if (page > totalPages) {
-  //     setPage(totalPages);
-  //   }
-  // }, [page, totalPages]);
+  useEffect(() => {
+    window.addEventListener('todos-updated', refreshTodos);
+    return () => {
+      window.removeEventListener('todos-updated', refreshTodos);
+    };
+  }, [date]);
 
   return {
-    todos: trasactionsQuery,
+    todos: {
+      data: {
+        items: todos,
+        total: todos.length,
+        balances: [],
+      },
+      isPending: isLoading,
+      isError: false,
+      error: null as Error | null,
+    },
     pagination: {
-      // page,
-      // totalPages,
-      // rowsPerPage,
-      // rowsPerPageOptions: [5, 10, 20],
-      // canGoPreviousPage,
-      // canGoNextPage,
       date,
       goToPreviousPage: () => {
-        // if (!
         setDate(date => moment(date).subtract(1, 'month'));
       },
       goToNextPage: () => {
         setDate(date => moment(date).add(1, 'month'));
       },
-      // updateRowsPerPage: (nextRowsPerPage: number) => {
-      //   setRowsPerPage(nextRowsPerPage);
-      //   setPage(1);
-      // },
     },
   };
 };

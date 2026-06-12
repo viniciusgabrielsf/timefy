@@ -15,7 +15,7 @@ type Props = {
 export const TodoForm = ({
   className = '',
   onSubmit,
-  defaultValues = { title: '', amount: 0, debtors: [] },
+  defaultValues = { title: '', amount: 0, todoDate: new Date().toISOString().split('T')[0] },
 }: Props) => {
   const form = useForm<TodoSchemaType>({
     resolver: zodResolver(todoSchema),
@@ -30,12 +30,12 @@ export const TodoForm = ({
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="form-todo-title">Título</FieldLabel>
+              <FieldLabel htmlFor="form-todo-title">Tarefa</FieldLabel>
               <Input
                 {...field}
                 id="form-todo-title"
                 aria-invalid={fieldState.invalid}
-                placeholder="Digite o título do todo..."
+                placeholder="Digite o nome da tarefa..."
                 autoComplete="off"
                 type="text"
               />
@@ -49,19 +49,36 @@ export const TodoForm = ({
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="form-todo-amount">Valor (R$)</FieldLabel>
+              <FieldLabel htmlFor="form-todo-amount">Ciclos Pomodoro</FieldLabel>
               <Input
                 {...field}
                 id="form-todo-amount"
                 aria-invalid={fieldState.invalid}
-                placeholder="0,00"
+                placeholder="0"
                 type="number"
-                step="0.01"
+                step="1"
                 min="0"
                 onChange={e => {
-                  const value = parseFloat(e.target.value) || 0;
+                  const value = parseInt(e.target.value) || 0;
                   field.onChange(value);
                 }}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+
+        <Controller
+          name="todoDate"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-todo-date">Data</FieldLabel>
+              <Input
+                {...field}
+                id="form-todo-date"
+                aria-invalid={fieldState.invalid}
+                type="date"
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>

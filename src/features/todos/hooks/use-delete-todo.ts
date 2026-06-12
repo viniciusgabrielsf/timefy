@@ -1,30 +1,42 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { toast } from 'sonner';
-import { todosClient } from '../api/todos-client';
+import { todosStorage } from '../storage/todos-storage';
 
-export const useDeleteTodo = (teamId: string, onClose?: () => void) => {
-  const queryClient = useQueryClient();
+export const useDeleteTodo = (_teamId: string, onClose?: () => void) => {
+  const [isPending, setIsPending] = useState(false);
 
-  const deleteTodoMutation = useMutation({
-    mutationKey: ['delete-todo'],
-    mutationFn: async (todoId: string) => {
-      toast.loading('Excluindo todo...', { id: 'delete-todo-loading' });
+  const mutate = (todoId: string) => {
+    try {
+      setIsPending(true);
+      toast.loading('Excluindo tarefa...', { id: 'delete-todo-loading' });
 
-      return todosClient.deleteTodo(teamId, todoId);
-    },
-    onSuccess: () => {
+      const success = todosStorage.deleteTodo(todoId);
+
+      if (!success) {
+        throw new Error('Tarefa não encontrada');
+      }
+
       toast.dismiss('delete-todo-loading');
-      toast.success('Pagamento excluído com sucesso!', { id: 'delete-todo-success' });
-      queryClient.invalidateQueries({ queryKey: ['todos'] });
+      toast.success('Tarefa excluída com sucesso!', { id: 'delete-todo-success' });
+
+      // Trigger a custom event to notify other components
+      window.dispatchEvent(new Event('todos-updated'));
+
       onClose?.();
-    },
-    onError: (error: Error) => {
+    } catch (error) {
       toast.dismiss('delete-todo-loading');
-      toast.error(`Erro ao excluir todo: ${error.message}`, { id: 'delete-todo-error' });
-    },
-  });
+      toast.error(`Erro ao excluir tarefa: ${error instanceof Error ? error.message : 'Erro desconhecido'}`, {
+        id: 'delete-todo-error',
+      });
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   return {
-    deleteTodo: deleteTodoMutation,
+    deleteTodo: {
+      mutate,
+      isPending,
+    },
   };
 };
