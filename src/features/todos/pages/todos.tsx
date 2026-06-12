@@ -9,7 +9,7 @@ import { DeleteTodoDialog } from '../components/delete-todo-dialog';
 import { PomodoroTimer } from '../components/pomodoro-timer';
 import { useToggleComplete } from '../hooks/use-toggle-complete';
 import { useState } from 'react';
-import type { Todo } from '../api/todos-client';
+import type { Todo } from '../types';
 import { useSearchParams } from 'react-router';
 
 export const TodosPage = () => {

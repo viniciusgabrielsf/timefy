@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/dialog';
 import { Button } from '@/components/button';
-import type { Todo } from '../api/todos-client';
+import type { Todo } from '../types';
 import { useDeleteTodo } from '../hooks/use-delete-todo';
 
 type Props = {

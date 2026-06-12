@@ -1,5 +1,5 @@
 import { Card } from '@/components/card';
-import type { Todo } from '../api/todos-client';
+import type { Todo } from '../types';
 import { ListItem } from './list-item';
 import { ScrollArea } from '@/components/scroll-area';
 import { Paginator } from './pagination/paginator';

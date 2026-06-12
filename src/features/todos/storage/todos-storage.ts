@@ -1,4 +1,4 @@
-import type { Todo } from '../api/todos-client';
+import type { Todo } from '../types';
 
 const TODOS_STORAGE_KEY = 'timefy_todos';
 

@@ -1,4 +1,4 @@
-import type { Todo } from '../api/todos-client';
+import type { Todo } from '../types';
 import { Button } from '@/components/button';
 import { EditIcon, TrashIcon, CheckIcon } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/dropdown-menu';

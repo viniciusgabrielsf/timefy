@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { todosStorage } from '../storage/todos-storage';
-import type { EditTodoRequest } from '../api/todos-client';
+import type { EditTodoRequest } from '../types';
 
 export const useEditTodo = (_teamId: string, onClose?: () => void) => {
   const [isPending, setIsPending] = useState(false);

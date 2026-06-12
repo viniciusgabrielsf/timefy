@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { todosStorage } from './todos-storage';
-import type { Todo } from '../api/todos-client';
+import type { Todo } from '../types';
 
 describe('todosStorage', () => {
   // Mock localStorage

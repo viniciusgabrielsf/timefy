@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { todosStorage } from '../storage/todos-storage';
-import type { Todo } from '../api/todos-client';
+import type { Todo } from '../types';
 
 // Helper functions for date manipulation
 const getStartOfMonth = (date: Date): Date => {

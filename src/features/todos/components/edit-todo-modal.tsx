@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/d
 import { TodoForm } from './form/todo-form';
 import { useEditTodo } from '../hooks/use-edit-todo';
 import type { TodoSchemaType } from '../helpers/todo-schema';
-import type { Todo } from '../api/todos-client';
+import type { Todo } from '../types';
 
 type Props = {
   teamId: string;
