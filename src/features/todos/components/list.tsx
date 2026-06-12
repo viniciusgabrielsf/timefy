@@ -19,12 +19,10 @@ type Props = {
 export const List = ({ items, pagination, onEdit, onDelete }: Props) => {
   return (
     <Card className={`flex flex-col h-100 min-w-[max(70%,320px)] p-0 gap-0`}>
-      <header className="grid grid-cols-[1fr_2fr_3fr_1fr] sm:grid-cols-[1fr_5fr_3fr_2fr_5fr_1fr] gap-3 sm:gap-4 p-2 sm:p-3 font-bold border-b bg-foreground/9 rounded-t-xl text-xs sm:text-sm">
-        <p>Pagante</p>
-        <p>Título</p>
-        <p>Valor</p>
+      <header className="grid grid-cols-[2fr_3fr_1fr] sm:grid-cols-[5fr_3fr_2fr_1fr] gap-3 sm:gap-4 p-2 sm:p-3 font-bold border-b bg-foreground/9 rounded-t-xl text-xs sm:text-sm">
+        <p>Tarefa</p>
+        <p>Ciclos Pomodoro</p>
         <p className="hidden sm:block">Data</p>
-        <p className="hidden md:block">Devedores</p>
         <p>Ações</p>
       </header>
       <ScrollArea className={`overflow-y-auto my-auto p-0`}>
@@ -40,7 +38,7 @@ export const List = ({ items, pagination, onEdit, onDelete }: Props) => {
 
         {items.length === 0 && (
           <div className="flex items-center justify-center h-32 text-sm text-muted-foreground">
-            Nenhum todo encontrado em{' '}
+            Nenhuma tarefa encontrada em{' '}
             {pagination.date.toDate().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}.
           </div>
         )}

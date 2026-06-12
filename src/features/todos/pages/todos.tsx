@@ -42,10 +42,7 @@ export const TodosPage = () => {
     <Page className="p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-7xl flex flex-col gap-6 sm:gap-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Pagamentos de Equipe</h1>
-            <p className="text-sm text-muted-foreground">Acompanhe quem deve o quê</p>
-          </div>
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Tarefas</h1>
 
           <Button
             size="default"
@@ -53,7 +50,7 @@ export const TodosPage = () => {
             className="flex items-center gap-2 sm:flex-row w-full sm:w-auto"
           >
             <PlusIcon className="size-4" />
-            <span>Novo Pagamento</span>
+            <span>Nova tarefa</span>
           </Button>
         </div>
 

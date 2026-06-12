@@ -27,6 +27,7 @@ export const useTodosPage = () => {
       total: 0,
       balances: [],
     },
+    enabled: false, // Disable automatic fetching
   });
 
   // const totalPages = Math.max(1, Math.ceil(trasactionsQuery.data.total / rowsPerPage));

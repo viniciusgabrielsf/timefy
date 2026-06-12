@@ -15,11 +15,10 @@ export const LandingPage = () => {
         <h1 className="text-6xl sm:text-8xl font-bold">Timefy</h1>
       </div>
 
-      <p className="text-4xl sm:text-6xl font-bold">Transforme o caos financeiro em organização</p>
+      <p className="text-4xl sm:text-6xl font-bold">Menos procrastinação. Mais produtividade.</p>
 
       <p className="max-w-5xl text-xl sm:text-2xl italic text-muted-foreground">
-        Controle seus gastos, crie metas para seus sonhos e divida as contas com a galera, tudo em um só lugar. A sua
-        vida financeira pessoal e social, finalmente em sincronia.
+        Gerencie tarefas, mantenha o foco e alcance seus objetivos com ciclos inteligentes de trabalho e descanso.
       </p>
 
       <div className="flex items-center gap-4 py-10">
