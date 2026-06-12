@@ -6,6 +6,7 @@ import { PlusIcon } from 'lucide-react';
 import { CreateTodoModal } from '../components/create-todo-modal';
 import { EditTodoModal } from '../components/edit-todo-modal';
 import { DeleteTodoDialog } from '../components/delete-todo-dialog';
+import { PomodoroTimer } from '../components/pomodoro-timer';
 import { useState } from 'react';
 import type { Todo } from '../api/todos-client';
 import { useSearchParams } from 'react-router';
@@ -54,7 +55,13 @@ export const TodosPage = () => {
           </Button>
         </div>
 
-        <List items={todos.data.items} pagination={pagination} onEdit={handleEdit} onDelete={handleDelete} />
+        <div className="flex flex-col gap-6 sm:gap-8">
+          {/* Pomodoro Timer */}
+          <PomodoroTimer />
+
+          {/* Task List */}
+          <List items={todos.data.items} pagination={pagination} onEdit={handleEdit} onDelete={handleDelete} />
+        </div>
       </div>
 
       <CreateTodoModal teamId={teamId} open={createModalOpen} onOpenChange={setCreateModalOpen} />
