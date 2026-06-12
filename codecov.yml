@@ -1,0 +1,38 @@
+codecov:
+  require_ci_to_pass: yes
+  notify:
+    after_n_builds: 3  # Wait for all 3 OS builds (Linux, macOS, Windows)
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+
+  status:
+    project:
+      default:
+        target: 80%
+        threshold: 1%
+        if_no_uploads: error
+        if_not_found: success
+        if_ci_failed: error
+
+    patch:
+      default:
+        target: 80%
+        threshold: 1%
+
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false
+  require_base: no
+  require_head: yes
+
+ignore:
+  - "src/test/**/*"
+  - "**/*.test.ts"
+  - "**/*.test.tsx"
+  - "**/*.config.*"
+  - "**/mockData/**/*"
+  - "**/*.d.ts"
