@@ -21,11 +21,12 @@ export const todosStorage = {
     }
   },
 
-  addTodo: (todo: Omit<Todo, 'id'>): Todo => {
+  addTodo: (todo: Omit<Todo, 'id' | 'completed'>): Todo => {
     const todos = todosStorage.getTodos();
     const newTodo: Todo = {
       ...todo,
       id: crypto.randomUUID(),
+      completed: false,
     };
     todos.push(newTodo);
     todosStorage.saveTodos(todos);
@@ -81,5 +82,19 @@ export const todosStorage = {
 
       return todoYear === filterYear && todoMonth === filterMonth;
     });
+  },
+
+  toggleComplete: (id: string): Todo | null => {
+    const todos = todosStorage.getTodos();
+    const index = todos.findIndex(t => t.id === id);
+
+    if (index === -1) {
+      return null;
+    }
+
+    const updatedTodo = { ...todos[index], completed: !todos[index].completed };
+    todos[index] = updatedTodo;
+    todosStorage.saveTodos(todos);
+    return updatedTodo;
   },
 };

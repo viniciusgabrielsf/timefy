@@ -13,9 +13,10 @@ type Props = {
   };
   onEdit: (item: Todo) => void;
   onDelete: (item: Todo) => void;
+  onToggleComplete: (item: Todo) => void;
 };
 
-export const List = ({ items, pagination, onEdit, onDelete }: Props) => {
+export const List = ({ items, pagination, onEdit, onDelete, onToggleComplete }: Props) => {
   return (
     <Card className={`flex flex-col h-100 min-w-[max(70%,320px)] p-0 gap-0`}>
       <header className="grid grid-cols-[2fr_3fr_1fr] sm:grid-cols-[5fr_3fr_2fr_1fr] gap-3 sm:gap-4 p-2 sm:p-3 font-bold border-b bg-foreground/9 rounded-t-xl text-xs sm:text-sm">
@@ -32,6 +33,7 @@ export const List = ({ items, pagination, onEdit, onDelete }: Props) => {
             className="p-2 sm:p-3 border-b border-foreground/20 last:border-b-0"
             onEdit={onEdit}
             onDelete={onDelete}
+            onToggleComplete={onToggleComplete}
           />
         ))}
 

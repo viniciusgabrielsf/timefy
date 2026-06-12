@@ -17,6 +17,7 @@ export type Todo = {
   task: string;
   pomodoroCycles: number;
   todoDate: string;
+  completed: boolean;
 };
 
 export type Balance = {

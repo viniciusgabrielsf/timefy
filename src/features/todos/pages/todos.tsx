@@ -7,6 +7,7 @@ import { CreateTodoModal } from '../components/create-todo-modal';
 import { EditTodoModal } from '../components/edit-todo-modal';
 import { DeleteTodoDialog } from '../components/delete-todo-dialog';
 import { PomodoroTimer } from '../components/pomodoro-timer';
+import { useToggleComplete } from '../hooks/use-toggle-complete';
 import { useState } from 'react';
 import type { Todo } from '../api/todos-client';
 import { useSearchParams } from 'react-router';
@@ -15,6 +16,7 @@ export const TodosPage = () => {
   const [searchParams] = useSearchParams();
   const teamId = searchParams.get('teamId') || '';
   const { todos, pagination } = useTodosPage();
+  const { toggleComplete } = useToggleComplete();
 
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -29,6 +31,10 @@ export const TodosPage = () => {
   const handleDelete = (todo: Todo) => {
     setSelectedTodo(todo);
     setDeleteDialogOpen(true);
+  };
+
+  const handleToggleComplete = (todo: Todo) => {
+    toggleComplete.mutate(todo.id);
   };
 
   if (todos.isPending) {
@@ -60,7 +66,13 @@ export const TodosPage = () => {
           <PomodoroTimer />
 
           {/* Task List */}
-          <List items={todos.data.items} pagination={pagination} onEdit={handleEdit} onDelete={handleDelete} />
+          <List
+            items={todos.data.items}
+            pagination={pagination}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onToggleComplete={handleToggleComplete}
+          />
         </div>
       </div>
 
