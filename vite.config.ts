@@ -45,6 +45,13 @@ export default defineConfig(({ mode }) => {
       environment: 'jsdom',
       globals: true,
       setupFiles: './src/test/setup.ts',
+      exclude: [
+        '**/node_modules/**',
+        '**/dist/**',
+        '**/public/**',
+        'e2e/**',
+        '**/*.e2e.*',
+      ],
       coverage: {
         provider: 'v8',
         reporter: ['text', 'json', 'html', 'lcov'],
