@@ -58,6 +58,7 @@ export default defineConfig(({ mode }) => {
           '**/*.test.*',
           '**/dist/',
           '**/public/',
+          'e2e/**',
         ],
         thresholds: {
           lines: 60,

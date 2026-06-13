@@ -64,3 +64,9 @@ A aplicação estará disponível em `http://localhost:7000`
 ```bash
 npm test
 ```
+
+#### e2e
+
+```bash
+npm run test:e2e:ui
+```

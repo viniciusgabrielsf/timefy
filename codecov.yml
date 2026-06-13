@@ -36,3 +36,4 @@ ignore:
   - "**/*.config.*"
   - "**/mockData/**/*"
   - "**/*.d.ts"
+  - "e2e/**/*"
