@@ -159,7 +159,7 @@ describe('Avatar', () => {
   });
 
   it('should apply custom className to avatar components', () => {
-    const { container } = render(
+    render(
       <Avatar className="custom-avatar">
         <AvatarFallback className="custom-fallback">AB</AvatarFallback>
       </Avatar>

@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
   DialogClose,
 } from '../dialog';
@@ -57,7 +56,6 @@ describe('Dialog', () => {
       expect(screen.getByText('Title')).toBeInTheDocument();
     });
 
-    // Close button should be rendered by default (showCloseButton=true)
     const closeBtn = screen.getByRole('button', { name: /close/i });
     expect(closeBtn).toBeInTheDocument();
 
