@@ -20,7 +20,6 @@ vi.mock('sonner', () => ({
 }));
 
 describe('useDeleteTodo', () => {
-  const teamId = 'team-123';
   const mockOnClose = vi.fn();
 
   beforeEach(() => {
@@ -33,7 +32,7 @@ describe('useDeleteTodo', () => {
       const todoId = '1';
       vi.mocked(todosStorage.deleteTodo).mockReturnValue(true);
 
-      const { result } = renderHook(() => useDeleteTodo(teamId, mockOnClose));
+      const { result } = renderHook(() => useDeleteTodo(mockOnClose));
 
       act(() => {
         result.current.deleteTodo.mutate(todoId);
@@ -51,7 +50,7 @@ describe('useDeleteTodo', () => {
       const todoId = '1';
       vi.mocked(todosStorage.deleteTodo).mockReturnValue(true);
 
-      const { result } = renderHook(() => useDeleteTodo(teamId));
+      const { result } = renderHook(() => useDeleteTodo());
 
       expect(result.current.deleteTodo.isPending).toBe(false);
 
@@ -66,7 +65,7 @@ describe('useDeleteTodo', () => {
       const todoId = '1';
       vi.mocked(todosStorage.deleteTodo).mockReturnValue(true);
 
-      const { result } = renderHook(() => useDeleteTodo(teamId));
+      const { result } = renderHook(() => useDeleteTodo());
 
       act(() => {
         result.current.deleteTodo.mutate(todoId);
@@ -80,7 +79,7 @@ describe('useDeleteTodo', () => {
       const todoId = '1';
       vi.mocked(todosStorage.deleteTodo).mockReturnValue(true);
 
-      const { result } = renderHook(() => useDeleteTodo(teamId));
+      const { result } = renderHook(() => useDeleteTodo());
 
       act(() => {
         result.current.deleteTodo.mutate(todoId);
@@ -94,7 +93,7 @@ describe('useDeleteTodo', () => {
       const todoId = 'non-existent';
       vi.mocked(todosStorage.deleteTodo).mockReturnValue(false);
 
-      const { result } = renderHook(() => useDeleteTodo(teamId, mockOnClose));
+      const { result } = renderHook(() => useDeleteTodo(mockOnClose));
 
       act(() => {
         result.current.deleteTodo.mutate(todoId);
@@ -114,7 +113,7 @@ describe('useDeleteTodo', () => {
         throw new Error(errorMessage);
       });
 
-      const { result } = renderHook(() => useDeleteTodo(teamId, mockOnClose));
+      const { result } = renderHook(() => useDeleteTodo(mockOnClose));
 
       act(() => {
         result.current.deleteTodo.mutate(todoId);
@@ -133,7 +132,7 @@ describe('useDeleteTodo', () => {
         throw 'String error';
       });
 
-      const { result } = renderHook(() => useDeleteTodo(teamId));
+      const { result } = renderHook(() => useDeleteTodo());
 
       act(() => {
         result.current.deleteTodo.mutate(todoId);
@@ -150,7 +149,7 @@ describe('useDeleteTodo', () => {
         throw new Error('Test error');
       });
 
-      const { result } = renderHook(() => useDeleteTodo(teamId));
+      const { result } = renderHook(() => useDeleteTodo());
 
       act(() => {
         result.current.deleteTodo.mutate(todoId);

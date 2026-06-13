@@ -20,7 +20,6 @@ vi.mock('sonner', () => ({
 }));
 
 describe('useCreateTodo', () => {
-  const teamId = 'team-123';
   const mockOnClose = vi.fn();
 
   beforeEach(() => {
@@ -44,7 +43,7 @@ describe('useCreateTodo', () => {
       };
       vi.mocked(todosStorage.addTodo).mockReturnValue(mockTodo);
 
-      const { result } = renderHook(() => useCreateTodo(teamId, mockOnClose));
+      const { result } = renderHook(() => useCreateTodo(mockOnClose));
 
       act(() => {
         result.current.createTodo.mutate(request);
@@ -73,7 +72,7 @@ describe('useCreateTodo', () => {
       };
       vi.mocked(todosStorage.addTodo).mockReturnValue(mockTodo);
 
-      const { result } = renderHook(() => useCreateTodo(teamId));
+      const { result } = renderHook(() => useCreateTodo());
 
       expect(result.current.createTodo.isPending).toBe(false);
 
@@ -99,7 +98,7 @@ describe('useCreateTodo', () => {
       };
       vi.mocked(todosStorage.addTodo).mockReturnValue(mockTodo);
 
-      const { result } = renderHook(() => useCreateTodo(teamId));
+      const { result } = renderHook(() => useCreateTodo());
 
       act(() => {
         result.current.createTodo.mutate(request);
@@ -124,7 +123,7 @@ describe('useCreateTodo', () => {
       };
       vi.mocked(todosStorage.addTodo).mockReturnValue(mockTodo);
 
-      const { result } = renderHook(() => useCreateTodo(teamId));
+      const { result } = renderHook(() => useCreateTodo());
 
       act(() => {
         result.current.createTodo.mutate(request);
@@ -145,7 +144,7 @@ describe('useCreateTodo', () => {
         throw new Error(errorMessage);
       });
 
-      const { result } = renderHook(() => useCreateTodo(teamId, mockOnClose));
+      const { result } = renderHook(() => useCreateTodo(mockOnClose));
 
       act(() => {
         result.current.createTodo.mutate(request);
@@ -168,7 +167,7 @@ describe('useCreateTodo', () => {
         throw 'String error';
       });
 
-      const { result } = renderHook(() => useCreateTodo(teamId));
+      const { result } = renderHook(() => useCreateTodo());
 
       act(() => {
         result.current.createTodo.mutate(request);
@@ -189,7 +188,7 @@ describe('useCreateTodo', () => {
         throw new Error('Test error');
       });
 
-      const { result } = renderHook(() => useCreateTodo(teamId));
+      const { result } = renderHook(() => useCreateTodo());
 
       act(() => {
         result.current.createTodo.mutate(request);

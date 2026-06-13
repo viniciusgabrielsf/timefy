@@ -4,13 +4,12 @@ import { useCreateTodo } from '../hooks/use-create-todo';
 import type { TodoSchemaType } from '../helpers/todo-schema';
 
 type Props = {
-  teamId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-export const CreateTodoModal = ({ teamId, open, onOpenChange }: Props) => {
-  const { createTodo } = useCreateTodo(teamId, () => onOpenChange(false));
+export const CreateTodoModal = ({ open, onOpenChange }: Props) => {
+  const { createTodo } = useCreateTodo(() => onOpenChange(false));
 
   const onSubmit = (value: TodoSchemaType) => {
     createTodo.mutate({

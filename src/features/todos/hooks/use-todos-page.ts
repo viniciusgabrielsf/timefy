@@ -50,7 +50,6 @@ export const useTodosPage = () => {
       data: {
         items: todos,
         total: todos.length,
-        balances: [],
       },
       isPending: isLoading,
       isError: false,

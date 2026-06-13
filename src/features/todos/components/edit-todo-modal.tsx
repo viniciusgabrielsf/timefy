@@ -5,14 +5,13 @@ import type { TodoSchemaType } from '../helpers/todo-schema';
 import type { Todo } from '../types';
 
 type Props = {
-  teamId: string;
   todo: Todo;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-export const EditTodoModal = ({ teamId, todo, open, onOpenChange }: Props) => {
-  const { editTodo } = useEditTodo(teamId, () => onOpenChange(false));
+export const EditTodoModal = ({ todo, open, onOpenChange }: Props) => {
+  const { editTodo } = useEditTodo(() => onOpenChange(false));
 
   const onSubmit = (value: TodoSchemaType) => {
     editTodo.mutate({

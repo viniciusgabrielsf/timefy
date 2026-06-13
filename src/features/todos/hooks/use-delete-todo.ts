@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { todosStorage } from '../storage/todos-storage';
 
-export const useDeleteTodo = (_teamId: string, onClose?: () => void) => {
+export const useDeleteTodo = (onClose?: () => void) => {
   const [isPending, setIsPending] = useState(false);
 
   const mutate = (todoId: string) => {

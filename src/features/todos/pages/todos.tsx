@@ -1,8 +1,10 @@
 import { useTodosPage } from '../hooks/use-todos-page';
+import { useTodoSearch } from '../hooks/use-todo-search';
 import { List } from '../components/list';
 import { Page } from '@/components/pages/page';
 import { Button } from '@/components/button';
-import { PlusIcon } from 'lucide-react';
+import { Input } from '@/components/input';
+import { PlusIcon, SearchIcon } from 'lucide-react';
 import { CreateTodoModal } from '../components/create-todo-modal';
 import { EditTodoModal } from '../components/edit-todo-modal';
 import { DeleteTodoDialog } from '../components/delete-todo-dialog';
@@ -10,12 +12,10 @@ import { PomodoroTimer } from '../components/pomodoro-timer';
 import { useToggleComplete } from '../hooks/use-toggle-complete';
 import { useState } from 'react';
 import type { Todo } from '../types';
-import { useSearchParams } from 'react-router';
 
 export const TodosPage = () => {
-  const [searchParams] = useSearchParams();
-  const teamId = searchParams.get('teamId') || '';
   const { todos, pagination } = useTodosPage();
+  const { search, setSearch, filteredTodos } = useTodoSearch(todos.data.items);
   const { toggleComplete } = useToggleComplete();
 
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -65,9 +65,21 @@ export const TodosPage = () => {
           {/* Pomodoro Timer */}
           <PomodoroTimer />
 
+          {/* Search Bar */}
+          <div className="relative">
+            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Buscar tarefas..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+
           {/* Task List */}
           <List
-            items={todos.data.items}
+            items={filteredTodos}
             pagination={pagination}
             onEdit={handleEdit}
             onDelete={handleDelete}
@@ -76,13 +88,12 @@ export const TodosPage = () => {
         </div>
       </div>
 
-      <CreateTodoModal teamId={teamId} open={createModalOpen} onOpenChange={setCreateModalOpen} />
+      <CreateTodoModal open={createModalOpen} onOpenChange={setCreateModalOpen} />
       {selectedTodo && (
-        <EditTodoModal teamId={teamId} todo={selectedTodo} open={editModalOpen} onOpenChange={setEditModalOpen} />
+        <EditTodoModal todo={selectedTodo} open={editModalOpen} onOpenChange={setEditModalOpen} />
       )}
       {selectedTodo && (
         <DeleteTodoDialog
-          teamId={teamId}
           todo={selectedTodo}
           open={deleteDialogOpen}
           onOpenChange={setDeleteDialogOpen}

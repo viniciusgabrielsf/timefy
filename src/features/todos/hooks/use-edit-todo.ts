@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 import { todosStorage } from '../storage/todos-storage';
 import type { EditTodoRequest } from '../types';
 
-export const useEditTodo = (_teamId: string, onClose?: () => void) => {
+export const useEditTodo = (onClose?: () => void) => {
   const [isPending, setIsPending] = useState(false);
 
   const mutate = (request: EditTodoRequest) => {

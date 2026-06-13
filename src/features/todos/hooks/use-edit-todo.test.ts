@@ -20,7 +20,6 @@ vi.mock('sonner', () => ({
 }));
 
 describe('useEditTodo', () => {
-  const teamId = 'team-123';
   const mockOnClose = vi.fn();
 
   beforeEach(() => {
@@ -45,7 +44,7 @@ describe('useEditTodo', () => {
       };
       vi.mocked(todosStorage.updateTodo).mockReturnValue(mockUpdatedTodo);
 
-      const { result } = renderHook(() => useEditTodo(teamId, mockOnClose));
+      const { result } = renderHook(() => useEditTodo(mockOnClose));
 
       act(() => {
         result.current.editTodo.mutate(request);
@@ -79,7 +78,7 @@ describe('useEditTodo', () => {
       };
       vi.mocked(todosStorage.updateTodo).mockReturnValue(mockUpdatedTodo);
 
-      const { result } = renderHook(() => useEditTodo(teamId));
+      const { result } = renderHook(() => useEditTodo());
 
       expect(result.current.editTodo.isPending).toBe(false);
 
@@ -106,7 +105,7 @@ describe('useEditTodo', () => {
       };
       vi.mocked(todosStorage.updateTodo).mockReturnValue(mockUpdatedTodo);
 
-      const { result } = renderHook(() => useEditTodo(teamId));
+      const { result } = renderHook(() => useEditTodo());
 
       act(() => {
         result.current.editTodo.mutate(request);
@@ -132,7 +131,7 @@ describe('useEditTodo', () => {
       };
       vi.mocked(todosStorage.updateTodo).mockReturnValue(mockUpdatedTodo);
 
-      const { result } = renderHook(() => useEditTodo(teamId));
+      const { result } = renderHook(() => useEditTodo());
 
       act(() => {
         result.current.editTodo.mutate(request);
@@ -151,7 +150,7 @@ describe('useEditTodo', () => {
       };
       vi.mocked(todosStorage.updateTodo).mockReturnValue(null);
 
-      const { result } = renderHook(() => useEditTodo(teamId, mockOnClose));
+      const { result } = renderHook(() => useEditTodo(mockOnClose));
 
       act(() => {
         result.current.editTodo.mutate(request);
@@ -176,7 +175,7 @@ describe('useEditTodo', () => {
         throw new Error(errorMessage);
       });
 
-      const { result } = renderHook(() => useEditTodo(teamId, mockOnClose));
+      const { result } = renderHook(() => useEditTodo(mockOnClose));
 
       act(() => {
         result.current.editTodo.mutate(request);
@@ -200,7 +199,7 @@ describe('useEditTodo', () => {
         throw 'String error';
       });
 
-      const { result } = renderHook(() => useEditTodo(teamId));
+      const { result } = renderHook(() => useEditTodo());
 
       act(() => {
         result.current.editTodo.mutate(request);
@@ -222,7 +221,7 @@ describe('useEditTodo', () => {
         throw new Error('Test error');
       });
 
-      const { result } = renderHook(() => useEditTodo(teamId));
+      const { result } = renderHook(() => useEditTodo());
 
       act(() => {
         result.current.editTodo.mutate(request);

@@ -1,30 +1,25 @@
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { userClient } from '@/features/auth/api/user-client';
+import { useState, useMemo } from 'react';
 import { useDebounce } from '@/hooks/use-debounce';
-import { useSearchParams as useRouteSearchParams } from 'react-router';
+import type { Todo } from '../types';
 
-export const useTodoMembers = () => {
-  const [memberSearch, setMemberSearch] = useState('');
-  const debouncedSearch = useDebounce(memberSearch.trim(), 300);
+export const useTodoSearch = (todos: Todo[]) => {
+  const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search.trim(), 300);
 
-  const [searchParams] = useRouteSearchParams();
-  const teamId = searchParams.get('teamId') || '';
+  const filteredTodos = useMemo(() => {
+    if (!debouncedSearch) {
+      return todos;
+    }
 
-  const teamMembersQuery = useQuery({
-    queryKey: ['team-members', { search: debouncedSearch || undefined, teamId }],
-    queryFn: async () => {
-      return userClient.users({ filter: { teamId, search: debouncedSearch || undefined } });
-    },
-    initialData: {
-      items: [],
-      total: 0,
-    },
-  });
+    const searchLower = debouncedSearch.toLowerCase();
+    return todos.filter(todo =>
+      todo.task.toLowerCase().includes(searchLower)
+    );
+  }, [todos, debouncedSearch]);
 
   return {
-    members: teamMembersQuery,
-    search: memberSearch,
-    setSearch: setMemberSearch,
+    search,
+    setSearch,
+    filteredTodos,
   };
 };

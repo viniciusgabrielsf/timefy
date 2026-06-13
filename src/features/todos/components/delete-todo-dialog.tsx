@@ -4,14 +4,13 @@ import type { Todo } from '../types';
 import { useDeleteTodo } from '../hooks/use-delete-todo';
 
 type Props = {
-  teamId: string;
   todo: Todo | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-export const DeleteTodoDialog = ({ teamId, todo, open, onOpenChange }: Props) => {
-  const { deleteTodo } = useDeleteTodo(teamId, () => onOpenChange(false));
+export const DeleteTodoDialog = ({ todo, open, onOpenChange }: Props) => {
+  const { deleteTodo } = useDeleteTodo(() => onOpenChange(false));
 
   if (!todo) return null;
 
